@@ -52,7 +52,7 @@ const processObjectType = (checker: ts.TypeChecker) => (
       .map(processProperty(checker))
       .join(", ")}})])`;
   } else if (optionalProperties.length === 0) {
-    return `t.type({${requiredProperties
+    return `t.strict({${requiredProperties
       .map(processProperty(checker))
       .join(", ")}})`;
   } else {
@@ -136,7 +136,7 @@ function handleDeclaration(
       symbol = checker.getSymbolAtLocation(node.name);
       type = checker.getTypeAtLocation(node);
     }
-    return `const ${symbol!.name} = ` + processType(checker)(type);
+    return `export const ${symbol!.name} = ` + processType(checker)(type);
   } catch (e) {
     return "// Error: Failed to generate a codec";
   }
